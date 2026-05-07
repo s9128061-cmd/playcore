@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина — PLAYCORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== СТИЛИ КАК НА ГЛАВНОЙ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a1c2e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background: #163A5C;
+            padding: 15px 0;
+            border-bottom: 2px solid #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        .logo-img { height: 40px; width: auto; }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            border: 2px solid #fff;
+            padding: 2px 12px;
+            background: #0a1c2e;
+            border-radius: 10px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .section-title {
+            font-size: 36px;
+            font-weight: 900;
+            border-left: 6px solid #fff;
+            padding-left: 20px;
+            margin: 40px 0;
+        }
+        .cart-back {
+            display: inline-block;
+            margin: 20px 0;
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .cart-back:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== СТИЛИ КОРЗИНЫ ===== */
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #163A5C;
+            border: 2px solid #fff;
+            padding: 15px 20px;
+            border-radius: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .cart-item-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .cart-item-price {
+            font-size: 20px;
+            font-weight: 900;
+            background: #0a1c2e;
+            padding: 2px 16px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+        .cart-empty {
+            text-align: center;
+            font-size: 24px;
+            padding: 60px 0;
+            opacity: 0.7;
+        }
+
+        /* ===== НИЗ КОРЗИНЫ ===== */
+        .cart-total-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 16px;
+            background: #163A5C;
+            margin-top: 20px;
+        }
+        .cart-total {
+            font-size: 32px;
+            font-weight: 900;
+        }
+        .cart-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn-clear {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 12px 30px;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-clear:hover {
+            background: #ff4444;
+            border-color: #ff4444;
+        }
+        .btn-order {
+            background: #fff;
+            color: #0a1c2e;
+            border: none;
+            padding: 12px 40px;
+            font-weight: 900;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-order:hover {
+            transform: scale(1.05);
+            background: #e0e0e0;
+        }
+
+        footer {
+            padding: 50px 0 30px;
+            text-align: center;
+            border-top: 2px solid #fff;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 15px; }
+            .cart-item { flex-direction: column; align-items: flex-start; }
+            .cart-total-area { flex-direction: column; gap: 15px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-inner">
+        <!-- Логотип (кликабельный) -->
+        <div class="logo-area">
+            <a href="index2.html" class="logo-link">
+                <img src="logo.png" alt="PLAYCORE" class="logo-img">
+                <div class="logo-text">PLAYCORE</div>
+            </a>
+        </div>
+        <nav>
+            <a href="index2.html">Каталог</a>
+            <a href="index2.html#content">Контент</a>
+            <a href="index2.html#contacts">Контакты</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <a href="index2.html" class="cart-back">← Продолжить покупки</a>
+    <h2 class="section-title">Корзина</h2>
+
+    <div id="cartContainer">
+        <!-- Сюда JavaScript будет вставлять товары -->
+    </div>
+
+    <div class="cart-total-area" id="totalArea">
+        <div class="cart-total">Итого: <span id="totalPrice">0</span> ₽</div>
+        <div class="cart-actions">
+            <button class="btn-clear" onclick="clearCart()">ОЧИСТИТЬ</button>
+            <button class="btn-order" onclick="payWithLava()">ОФОРМИТЬ ЗАКАЗ</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 PLAYCORE. Все права защищены.</p>
+        <p>ИП Акопов А.А.</p>
+        <p>Волгоград, ул. Рабоче-Крестьянская, 10г</p>
+    </div>
+</footer>
+
+<script>
+    // ===== ЧИТАЕМ КОРЗИНУ =====
+    let cart = [];
+    if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    // ===== ОТОБРАЖАЕМ ТОВАРЫ =====
+    function renderCart() {
+        const container = document.getElementById('cartContainer');
+        const totalSpan = document.getElementById('totalPrice');
+
+        if (cart.length === 0) {
+            container.innerHTML = '<div class="cart-empty">Ваша корзина пуста</div>';
+            totalSpan.innerText = '0';
+            return;
+        }
+
+        let html = '<div class="cart-items">';
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            total += item.price;
+            html += `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <img src="${item.img}.png" alt="${item.title}">
+                        <div class="cart-item-title">${item.title}</div>
+                    </div>
+                    <div class="cart-item-price">${item.price.toLocaleString()} ₽</div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+        totalSpan.innerText = total.toLocaleString();
+    }
+
+    // ===== ОЧИСТИТЬ КОРЗИНУ =====
+    function clearCart() {
+        if (confirm('Вы уверены, что хотите очистить корзину?')) {
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+    }
+
+    // ===== ОПЛАТА ЧЕРЕЗ LAVA (как на главной) =====
+    function payWithLava() {
+        if (cart.length === 0) {
+            alert('Корзина пуста');
+            return;
+        }
+
+        const API_KEY = 'wx3u1jOrygcirAMDMCnxWQ09U6IvCvHUxCu3CzBm3VTpfRnGusNydrnzW3Ib5KGo';
+        const PRODUCT_ID = '67d7c05b-d9d6-4445-b0c8-fc26dbdb8685';
+
+        let amount = 0;
+        cart.forEach(item => {
+            amount += item.price;
+        });
+
+        fetch('https://api.lava.top/v1/payment/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                productId: PRODUCT_ID,
+                amount: amount,
+                currency: 'RUB',
+                success_url: 'https://s9128061-cmd.github.io/playcore/success.html',
+                fail_url: 'https://s9128061-cmd.github.io/playcore/fail.html',
+                comment: 'Заказ PLAYCORE'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.data.url) {
+                window.location.href = data.data.url;
+            } else {
+                alert('Ошибка создания платежа: ' + (data.message || 'Неизвестная ошибка'));
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Не удалось создать платёж. Проверьте интернет-соединение.');
+        });
+    }
+
+    // ===== ЗАПУСК =====
+    renderCart();
+</script>
+
+</body>
+</html>
