@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — PLAYCORE</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a1c2e; color: #fff; font-family: 'Montserrat', sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: #163A5C;
+            padding: 15px 0;
+            border-bottom: 2px solid #fff;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            border: 2px solid #fff;
+            padding: 2px 12px;
+            background: #0a1c2e;
+            border-radius: 10px;
+        }
+        nav { display: flex; align-items: center; gap: 20px; }
+        nav a { color: white; text-decoration: none; font-weight: 700; }
+        .section-title {
+            font-size: 36px;
+            font-weight: 900;
+            border-left: 6px solid #fff;
+            padding-left: 20px;
+            margin: 40px 0;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 700; }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #fff;
+            border-radius: 12px;
+            background: #163A5C;
+            color: #fff;
+            font-size: 16px;
+        }
+        .form-group input:focus { outline: none; border-color: #4fc3f7; }
+        .btn-primary {
+            display: inline-block;
+            padding: 16px 50px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: white;
+            border: 2px solid #fff;
+            background: transparent;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-primary:hover { background: white; color: #0a1c2e; }
+        .btn-secondary {
+            background: #ffffff;
+            color: #0a1c2e;
+            padding: 16px 50px;
+            font-weight: 900;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-secondary:hover { transform: scale(1.05); }
+        .order-card {
+            background: #163A5C;
+            border: 2px solid #fff;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+        .order-status {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        .status-new { background: #4fc3f7; color: #0a1c2e; }
+        .status-done { background: #21A038; color: white; }
+        .hidden { display: none !important; }
+        footer {
+            padding: 50px 0 30px;
+            text-align: center;
+            border-top: 2px solid #fff;
+            margin-top: 60px;
+        }
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-inner">
+        <div class="logo-area">
+            <a href="index.html" class="logo-link">
+                <img src="logo.png" alt="PLAYCORE" class="logo-img">
+                <div class="logo-text">PLAYCORE</div>
+            </a>
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="cart.html">Корзина</a>
+            <a href="profile.html">Кабинет</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h2 class="section-title">Личный кабинет</h2>
+
+    <!-- Форма входа -->
+    <div id="authSection">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="emailInput" placeholder="Введите email">
+        </div>
+        <div class="form-group">
+            <label>Пароль</label>
+            <input type="password" id="passwordInput" placeholder="Введите пароль">
+        </div>
+        <button class="btn-primary" onclick="login()">Войти</button>
+        <button class="btn-secondary" onclick="register()">Регистрация</button>
+    </div>
+
+    <!-- Кабинет (скрыто до входа) -->
+    <div id="cabinetSection" class="hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <p style="font-size: 24px; font-weight: 700;">Здравствуйте, <span id="userName">Клиент</span>!</p>
+            <button class="btn-secondary" onclick="logout()" style="padding: 10px 30px;">Выйти</button>
+        </div>
+
+        <h3 style="font-size: 28px; font-weight: 900; margin: 30px 0 20px;">Ваши заказы</h3>
+        <div id="ordersList">
+            <p>Заказов пока нет</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 PLAYCORE. Все права защищены.</p>
+        <p>ИП Акопов А.А.</p>
+        <p>Волгоград, ул. Рабоче-Крестьянская, 10г</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // ===== НАСТРОЙКИ SUPABASE =====
+    const supabaseUrl = 'https://txggpeipjeimilodbeh.supabase.co';
+    const supabaseKey = 'sb_publishable_BWgClmR6K2D7WrrJ-FSUCA_VdEkYVsd';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const TABLE_NAME = 'orders';
+
+    // ===== Регистрация =====
+    async function register() {
+        const email = document.getElementById('emailInput').value;
+        const password = document.getElementById('passwordInput').value;
+        const { error } = await supabase.auth.signUp({
+            email: email,
+            password: password
+        });
+        if (error) {
+            alert('Ошибка регистрации: ' + error.message);
+        } else {
+            // Автоматический вход после регистрации
+            const { error: sessionError } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+            if (sessionError) {
+                alert('Ошибка входа после регистрации: ' + sessionError.message);
+            } else {
+                showCabinet();
+            }
+        }
+    }
+
+    // ===== Вход =====
+    async function login() {
+        const email = document.getElementById('emailInput').value;
+        const password = document.getElementById('passwordInput').value;
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+        if (error) {
+            alert('Ошибка входа: ' + error.message);
+        } else {
+            showCabinet();
+        }
+    }
+
+    // ===== Выход =====
+    async function logout() {
+        await supabase.auth.signOut();
+        document.getElementById('authSection').classList.remove('hidden');
+        document.getElementById('cabinetSection').classList.add('hidden');
+    }
+
+    // ===== Показать кабинет =====
+    function showCabinet() {
+        document.getElementById('authSection').classList.add('hidden');
+        document.getElementById('cabinetSection').classList.remove('hidden');
+        const user = supabase.auth.getUser();
+        document.getElementById('userName').innerText = user.email;
+        loadOrders();
+    }
+
+    // ===== Загрузить заказы =====
+    async function loadOrders() {
+        const user = await supabase.auth.getUser();
+        const { data, error } = await supabase
+            .from(TABLE_NAME)
+            .select('*')
+            .eq('user_id', user.data.user.id)
+            .order('created_at', { ascending: false });
+        
+        const container = document.getElementById('ordersList');
+        if (error) {
+            container.innerHTML = '<p>Ошибка загрузки заказов</p>';
+            return;
+        }
+        if (data.length === 0) {
+            container.innerHTML = '<p>Заказов пока нет</p>';
+            return;
+        }
+        let html = '';
+        data.forEach(order => {
+            const statusClass = order.status === 'new' ? 'status-new' : 'status-done';
+            const date = new Date(order.created_at).toLocaleString();
+            html += `
+                <div class="order-card">
+                    <p><strong>Заказ #${order.id}</strong> — ${date}</p>
+                    <p>Сумма: <strong>${order.total} ₽</strong></p>
+                    <span class="order-status ${statusClass}">${order.status}</span>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // ===== Проверка сессии при загрузке =====
+    async function checkSession() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+            showCabinet();
+        }
+    }
+    checkSession();
+</script>
+</body>
+</html>
