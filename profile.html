@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина — PLAYCORE</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a1c2e;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        header {
+            background: #163A5C;
+            padding: 15px 0;
+            width: 100%;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        .logo-img { height: 40px; width: auto; }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            border: 2px solid #fff;
+            padding: 2px 12px;
+            background: #0a1c2e;
+            border-radius: 10px;
+        }
+        nav { display: flex; align-items: center; gap: 15px; }
+        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 16px; }
+        nav a:hover { opacity: 0.8; }
+        .cart-section {
+            padding: 40px 0;
+        }
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #163A5C;
+            border: 2px solid #fff;
+            padding: 15px 20px;
+            border-radius: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .cart-item-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .cart-item-price {
+            font-size: 18px;
+            font-weight: 900;
+            background: #0a1c2e;
+            padding: 2px 12px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+        }
+        .cart-empty {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 20px;
+            opacity: 0.7;
+        }
+        .cart-total-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 16px;
+            background: #163A5C;
+            margin-top: 20px;
+        }
+        .cart-total {
+            font-size: 28px;
+            font-weight: 900;
+        }
+        .cart-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn-clear {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 30px;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-clear:hover {
+            background: #ff4444;
+            border-color: #ff4444;
+        }
+        .btn-order {
+            background: #fff;
+            color: #0a1c2e;
+            border: none;
+            padding: 10px 30px;
+            font-weight: 900;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-order:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            border-top: 2px solid #fff;
+        }
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cart-item-info {
+                min-width: 100%;
+            }
+            .cart-total-area {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .cart-actions {
+                justify-content: center;
+            }
+            .btn-clear, .btn-order {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo-area">
+            <a href="index.html" class="logo-link">
+                <img src="logo.png" alt="PLAYCORE" class="logo-img">
+                <div class="logo-text">PLAYCORE</div>
+            </a>
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="cart.html">Корзина</a>
+            <a href="lk.html">Кабинет</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="cart-section">
+        <h2 class="section-title">Корзина</h2>
+        <div id="cartContainer" class="cart-items">
+            <div class="cart-empty">Корзина пуста</div>
+        </div>
+        <div class="cart-total-area">
+            <div class="cart-total">Итого: <span id="totalPrice">0</span> ₽</div>
+            <div class="cart-actions">
+                <button class="btn-clear" onclick="clearCart()">ОЧИСТИТЬ</button>
+                <button class="btn-order" onclick="placeOrder()">ОФОРМИТЬ ЗАКАЗ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 PLAYCORE. Все права защищены.</p>
+</footer>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+        const container = document.getElementById('cartContainer');
+        const totalSpan = document.getElementById('totalPrice');
+        if (cart.length === 0) {
+            container.innerHTML = '<div class="cart-empty">Корзина пуста</div>';
+            totalSpan.innerText = '0';
+            return;
+        }
+        let total = 0;
+        let html = '';
+        cart.forEach((item, index) => {
+            total += item.price;
+            html += `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <img src="${item.img}.png" alt="${item.title}">
+                        <div class="cart-item-title">${item.title}</div>
+                    </div>
+                    <div class="cart-item-price">${item.price} ₽</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        totalSpan.innerText = total;
+    }
+
+    function clearCart() {
+        cart = [];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    function placeOrder() {
+        if (cart.length === 0) {
+            alert('Корзина пуста');
+            return;
+        }
+        const user = localStorage.getItem('fakeUser');
+        if (!user) {
+            alert('Пожалуйста, войдите в кабинет');
+            return;
+        }
+        alert('✅ Заказ оформлен!');
+        cart = [];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+    }
+
+    renderCart();
+</script>
+</body>
+</html>
